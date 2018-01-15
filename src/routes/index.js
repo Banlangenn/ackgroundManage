@@ -37,6 +37,34 @@ const WysiwygBundle = (props) => (
 );
 
 export default class CRouter extends Component {
+  constructor(props) {
+        super(props);
+        this.state={
+                permissions:[ {path:'/app/dashboard/index',component:'Dashboard'},]
+            }
+    }
+    componentWillMount(){
+              let permissions = []
+         const      permissions2 = 
+
+    setTimeout(()=>{
+       this.setState({
+            permissions:[ 
+                {path:'/app/dashboard/index',component:'Dashboard'},
+                {path:'/app/form/basicForm',component:'BasicForm'},
+                {path:'/app/table/basicTable',component:'BasicTable'},
+                {path:'/app/table/advancedTable',component:'AdvancedTable'},
+                {path:'/app/table/asynchronousTable',component:'AsynchronousTable'},
+                {path:'/app/chart/echarts',component:'Echarts'},
+                {path:'/app/chart/recharts',component:'Recharts'},
+                {path:'/app/animation/basicAnimations',component:'BasicAnimations'},
+            ]
+        })
+       
+    },1000)
+
+    }
+    
     requireAuth = (permission, component) => {
         const { auth } = this.props;
         console.log(11111111111111111)
@@ -56,36 +84,30 @@ export default class CRouter extends Component {
             AdvancedTable,
             AsynchronousTable,
             Echarts,
-            Recharts
+            Recharts,
+            BasicAnimations
         }
-         const permissions = [
-        {path:'/app/dashboard/index',component:'Dashboard'},
-        {path:'/app/form/basicForm',component:'BasicForm'},
-        {path:'/app/table/basicTable',component:'BasicTable'},
-        {path:'/app/table/advancedTable',component:'AdvancedTable'},
-        {path:'/app/table/asynchronousTable',component:'AsynchronousTable'},
-        {path:'/app/chart/echarts',component:'Echarts'},
-        {path:'/app/chart/recharts',component:'Recharts'},
-    ]
+        // Route  中的 组件变量 必须要隐射一下 才行  c此处应该有aiax
+   
         return (
             <Switch>
               
                 {
-                    permissions.map((item,key)=>{
+                    this.state.permissions.map((item,key)=>{
                         return (
                             <Route key={key} exact path={item.path} component= {json[item.component]}/>
                             )
                     })
                 }
-
                 <Route render={() => <Redirect to="/404" />} />
+              
             </Switch>
         )
     }
 }
 
 
-
+  
                 //   <Route exact path="/app/dashboard/index" component={Dashboard} />
                 // <Route exact path="/app/form/basicForm" component={BasicForm} />
                 // <Route exact path="/app/table/basicTable" component={BasicTable} />

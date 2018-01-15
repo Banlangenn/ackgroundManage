@@ -8,12 +8,11 @@ const renderMenuItem =
             key={key || link}
             {...props}
         >
-            <Link to={link || key}>
+            <span>
                 {icon && <Icon type={icon} />}
                 <span className="nav-text">{title}</span>
-            </Link>
+            </span>
 
-            55548484874874848
         </Menu.Item>;
  //渲染-级  1 级是没有link  链接的
 const renderSubMenu =
@@ -37,3 +36,4 @@ export default ({ menus, ...props }) => <Menu {...props}>
             renderSubMenu(item) : renderMenuItem(item)
     )}
 </Menu>;
+//  上面三元  是为了兼容  乜有子集的情况
