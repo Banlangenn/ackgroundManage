@@ -36,17 +36,25 @@ const WysiwygBundle = (props) => (
     </Bundle>
 );
 
+//字符串和组件类的映射
+const json={
+    Dashboard,
+    BasicForm,
+    BasicTable,
+    AdvancedTable,
+    AsynchronousTable,
+    Echarts,
+    Recharts,
+    BasicAnimations
+}
 export default class CRouter extends Component {
   constructor(props) {
         super(props);
         this.state={
-                permissions:[ {path:'/app/dashboard/index',component:'Dashboard'},]
+                permissions:[]
             }
     }
     componentWillMount(){
-              let permissions = []
-         const      permissions2 = 
-
     setTimeout(()=>{
        this.setState({
             permissions:[ 
@@ -64,45 +72,28 @@ export default class CRouter extends Component {
     },1000)
 
     }
-    
+
+    // 验证权限  颗粒验证
     requireAuth = (permission, component) => {
         const { auth } = this.props;
-        console.log(11111111111111111)
-        console.log(this.props)
         const { permissions } = auth.data;
-        // const { auth } = store.getState().httpData;
         if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
         return component;
     };
    
     render() {
-        //字符串和组件类的映射
-        const json={
-            Dashboard,
-            BasicForm,
-            BasicTable,
-            AdvancedTable,
-            AsynchronousTable,
-            Echarts,
-            Recharts,
-            BasicAnimations
-        }
-        // Route  中的 组件变量 必须要隐射一下 才行  c此处应该有aiax
-   
-        return (
-            <Switch>
-              
-                {
-                    this.state.permissions.map((item,key)=>{
-                        return (
-                            <Route key={key} exact path={item.path} component= {json[item.component]}/>
-                            )
-                    })
-                }
-                <Route render={() => <Redirect to="/404" />} />
-              
-            </Switch>
-        )
+         // 用三目 最好的好处就是有返回值  ... 简化代码.....这点很好用
+        return  this.state.permissions.length===0
+                    ?null:<Switch>{
+                            this.state.permissions.map((item,key)=>{
+                                return (
+                                    <Route key={key} exact path={item.path} component= {json[item.component]}/>
+                                        )
+                                    })
+                                }
+                            <Route render={() => <Redirect to="/404" />} />
+                        </Switch>
+
     }
 }
 
